@@ -1,14 +1,17 @@
 # Build stage
 FROM node:20-alpine AS builder
 
+# Install pnpm
+RUN npm install -g pnpm
+
 WORKDIR /app
 
 # Copy package files
-COPY package*.json ./
+COPY package*.json pnpm-lock.yaml* ./
 COPY apps/web/package*.json ./apps/web/
 
 # Install dependencies
-RUN npm ci
+RUN pnpm install --frozen-lockfile
 
 # Copy source code
 COPY apps/web ./apps/web
@@ -16,7 +19,7 @@ COPY tsconfig.json ./
 
 # Build application
 WORKDIR /app/apps/web
-RUN npm run build:prod
+RUN pnpm run build:prod
 
 # Production stage with nginx
 FROM nginx:alpine

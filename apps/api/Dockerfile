@@ -1,14 +1,17 @@
 # Build stage
 FROM node:20-alpine AS builder
 
+# Install pnpm
+RUN npm install -g pnpm
+
 WORKDIR /app
 
 # Copy package files
-COPY package*.json ./
+COPY package*.json pnpm-lock.yaml* ./
 COPY apps/api/package*.json ./apps/api/
 
 # Install dependencies
-RUN npm ci
+RUN pnpm install --frozen-lockfile
 
 # Copy source code
 COPY apps/api ./apps/api
@@ -16,19 +19,22 @@ COPY tsconfig.json ./
 
 # Build application
 WORKDIR /app/apps/api
-RUN npm run build
+RUN pnpm run build
 
 # Production stage
 FROM node:20-alpine
 
+# Install pnpm
+RUN npm install -g pnpm
+
 WORKDIR /app
 
 # Copy package files
-COPY package*.json ./
+COPY package*.json pnpm-lock.yaml* ./
 COPY apps/api/package*.json ./apps/api/
 
 # Install production dependencies only
-RUN npm ci --only=production
+RUN pnpm install --prod --frozen-lockfile
 
 # Copy built application from builder
 COPY --from=builder /app/apps/api/dist ./apps/api/dist

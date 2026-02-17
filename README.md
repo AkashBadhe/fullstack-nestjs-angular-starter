@@ -1,6 +1,6 @@
 # Full-Stack Starter Template
 
-A production-ready full-stack application template with **NestJS**, **MongoDB**, **Angular 21**, JWT authentication, OAuth integration, and Docker support.
+A production-ready full-stack application template with **NestJS**, **MongoDB**, **Angular 21**, JWT authentication, OAuth integration, and Docker support. Built with **pnpm workspaces** for efficient monorepo management.
 
 ## 🚀 Features
 
@@ -78,8 +78,11 @@ A production-ready full-stack application template with **NestJS**, **MongoDB**,
 │       └── package.json
 │
 ├── docker-compose.yml
+├── pnpm-workspace.yaml
+├── .npmrc
 ├── .env.example
-└── package.json
+├── package.json
+└── README.md
 ```
 
 ## 🛠️ Tech Stack
@@ -103,6 +106,7 @@ A production-ready full-stack application template with **NestJS**, **MongoDB**,
 - **State:** RxJS
 
 ### DevOps
+- **Package Manager:** pnpm (with workspaces)
 - **Containerization:** Docker
 - **Orchestration:** Docker Compose
 - **Web Server:** Nginx (for Angular)
@@ -111,6 +115,7 @@ A production-ready full-stack application template with **NestJS**, **MongoDB**,
 
 ### Prerequisites
 - Node.js 20+
+- pnpm 9+ (Install with: `npm install -g pnpm`)
 - Docker & Docker Compose
 - MongoDB (if running locally)
 
@@ -121,10 +126,15 @@ A production-ready full-stack application template with **NestJS**, **MongoDB**,
 git clone <your-repo-url>
 cd Full-Stack-MENA
 
-# Install dependencies (optional - if running without Docker)
-npm install
-cd apps/api && npm install
-cd ../web && npm install
+# Install pnpm globally if not already installed
+npm install -g pnpm
+
+# Install all dependencies using pnpm workspaces (recommended)
+pnpm install -r
+
+# Or install manually for each app
+cd apps/api && pnpm install
+cd ../web && pnpm install
 ```
 
 ### 2. Environment Configuration
@@ -202,16 +212,49 @@ docker-compose down -v
 
 #### Backend
 ```bash
+# From root using workspace commands
+pnpm dev:api
+
+# Or from the api directory
 cd apps/api
-npm install
-npm run start:dev
+pnpm install
+pnpm run start:dev
 ```
 
 #### Frontend
 ```bash
+# From root using workspace commands
+pnpm dev:web
+
+# Or from the web directory
 cd apps/web
-npm install
-npm start
+pnpm install
+pnpm start
+```
+
+#### Using Root Scripts
+
+The root package.json provides convenient scripts for the entire monorepo:
+
+```bash
+# Install all dependencies
+pnpm install:all
+
+# Run both apps in development
+pnpm dev:api    # Start backend
+pnpm dev:web    # Start frontend
+
+# Build everything
+pnpm build:all
+
+# Clean all node_modules and build artifacts
+pnpm clean
+
+# Docker commands
+pnpm docker:up
+pnpm docker:down
+pnpm docker:build
+pnpm docker:logs
 ```
 
 ## 🔐 OAuth Setup
@@ -288,14 +331,14 @@ db.users.updateOne(
 ```bash
 # Backend unit tests
 cd apps/api
-npm run test
+pnpm run test
 
 # Backend e2e tests
-npm run test:e2e
+pnpm run test:e2e
 
 # Frontend tests
 cd apps/web
-npm run test
+pnpm run test
 ```
 
 ## 📦 Build for Production
@@ -303,13 +346,13 @@ npm run test
 ### Backend
 ```bash
 cd apps/api
-npm run build
+pnpm run build
 ```
 
 ### Frontend
 ```bash
 cd apps/web
-npm run build:prod
+pnpm run build:prod
 ```
 
 ### Docker Production Build
@@ -317,7 +360,36 @@ npm run build:prod
 docker-compose -f docker-compose.yml up --build
 ```
 
-## 🔧 Customization
+## � pnpm Workspace Commands
+
+This project uses pnpm workspaces for efficient monorepo management. Here are useful commands:
+
+```bash
+# Install all dependencies in all workspaces
+pnpm install -r
+
+# Run a command in a specific workspace
+pnpm --filter api start:dev
+pnpm --filter web start
+
+# Run a command in all workspaces
+pnpm -r run build
+
+# Add a dependency to a specific workspace
+pnpm --filter api add express
+pnpm --filter web add rxjs
+
+# Add a dev dependency
+pnpm --filter api add -D @types/node
+
+# Update all dependencies
+pnpm up -r
+
+# Remove node_modules and reinstall
+pnpm -r exec rm -rf node_modules && pnpm install -r
+```
+
+## �🔧 Customization
 
 ### Adding New Features
 

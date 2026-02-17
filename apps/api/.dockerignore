@@ -3,6 +3,8 @@ dist
 .env
 .env.*
 npm-debug.log
+pnpm-debug.log
+.pnpm-store
 .git
 .gitignore
 README.md

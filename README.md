@@ -123,7 +123,7 @@ A production-ready full-stack application template with **NestJS**, **MongoDB**,
 
 ```bash
 # Clone repository
-git clone <your-repo-url>
+git clone https://github.com/AkashBadhe/fullstack-nestjs-angular-starter
 cd Full-Stack-MENA
 
 # Install pnpm globally if not already installed
@@ -440,6 +440,10 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## 📞 Support
 
 For issues and questions, please open an issue on GitHub.
+
+## 👤 Author
+
+**Akash Badhe**
 
 ---
 

@@ -1,0 +1,78 @@
+<div class="dashboard-container">
+  <nav class="navbar">
+    <div class="nav-content">
+      <h2>Full-Stack Starter</h2>
+      <div class="nav-actions">
+        @if (user) {
+          <span class="user-email">{{ user.email }}</span>
+          @if (user.roles.includes('admin')) {
+            <button class="btn btn-secondary" (click)="goToAdmin()">Admin Panel</button>
+          }
+          <button class="btn btn-outline" (click)="logout()">Logout</button>
+        }
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="welcome-card">
+      <h1>Welcome to your Dashboard! 🎉</h1>
+      
+      @if (user) {
+        <div class="user-info">
+          <h3>Your Account Information</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="label">Email:</span>
+              <span class="value">{{ user.email }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Provider:</span>
+              <span class="value">{{ user.provider || 'local' }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Roles:</span>
+              <span class="value">
+                @for (role of user.roles; track role) {
+                  <span class="badge">{{ role }}</span>
+                }
+              </span>
+            </div>
+            <div class="info-item">
+              <span class="label">Status:</span>
+              <span class="value">
+                <span class="badge badge-success">Active</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      }
+
+      <div class="features">
+        <h3>Features</h3>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="icon">🔐</div>
+            <h4>Secure Authentication</h4>
+            <p>JWT-based auth with refresh token rotation</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon">🔑</div>
+            <h4>OAuth Integration</h4>
+            <p>Google and GitHub login support</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon">👥</div>
+            <h4>Role-Based Access</h4>
+            <p>Fine-grained permission control</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon">🚀</div>
+            <h4>Production Ready</h4>
+            <p>Docker, MongoDB, and best practices</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

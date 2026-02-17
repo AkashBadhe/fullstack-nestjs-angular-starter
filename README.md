@@ -1,0 +1,374 @@
+# Full-Stack Starter Template
+
+A production-ready full-stack application template with **NestJS**, **MongoDB**, **Angular 21**, JWT authentication, OAuth integration, and Docker support.
+
+## 🚀 Features
+
+### Backend (NestJS)
+- ✅ MongoDB with Mongoose ODM
+- ✅ JWT-based authentication with refresh token rotation
+- ✅ OAuth integration (Google + GitHub)
+- ✅ Role-based access control (RBAC)
+- ✅ HttpOnly cookie authentication
+- ✅ Config module with environment variables
+- ✅ Global exception filter
+- ✅ Request/response interceptors
+- ✅ Logging with Pino
+- ✅ Swagger API documentation
+- ✅ Rate limiting
+- ✅ Request validation with class-validator
+- ✅ Security headers (Helmet)
+- ✅ CORS configuration
+- ✅ Docker support
+
+### Frontend (Angular 21)
+- ✅ Standalone components architecture
+- ✅ Functional guards and interceptors
+- ✅ Auth module with login/register
+- ✅ OAuth login integration (Google + GitHub)
+- ✅ HTTP interceptor for JWT
+- ✅ Auth guard + Role guard
+- ✅ Token refresh mechanism
+- ✅ HttpOnly cookie handling
+- ✅ Lazy-loaded routes
+- ✅ Environment-based configuration
+- ✅ Responsive UI with modern design
+- ✅ Docker + Nginx support
+
+## 📁 Project Structure
+
+```
+├── apps/
+│   ├── api/                    # NestJS Backend
+│   │   ├── src/
+│   │   │   ├── auth/          # Authentication module
+│   │   │   │   ├── guards/    # JWT & Role guards
+│   │   │   │   ├── strategies/ # Passport strategies
+│   │   │   │   ├── decorators/ # Custom decorators
+│   │   │   │   └── dto/       # Data transfer objects
+│   │   │   ├── user/          # User module
+│   │   │   │   └── schemas/   # Mongoose schemas
+│   │   │   ├── common/        # Shared resources
+│   │   │   │   ├── filters/   # Exception filters
+│   │   │   │   ├── interceptors/ # HTTP interceptors
+│   │   │   │   └── decorators/ # Custom decorators
+│   │   │   ├── config/        # Configuration
+│   │   │   └── main.ts        # Application entry point
+│   │   ├── Dockerfile
+│   │   └── package.json
+│   │
+│   └── web/                   # Angular Frontend
+│       ├── src/
+│       │   ├── app/
+│       │   │   ├── core/      # Core module
+│       │   │   │   ├── guards/ # Route guards
+│       │   │   │   ├── interceptors/ # HTTP interceptors
+│       │   │   │   ├── models/ # TypeScript interfaces
+│       │   │   │   └── services/ # Core services
+│       │   │   ├── features/  # Feature modules
+│       │   │   │   ├── auth/  # Auth components
+│       │   │   │   ├── dashboard/ # Dashboard
+│       │   │   │   └── admin/ # Admin panel
+│       │   │   ├── shared/    # Shared components
+│       │   │   ├── app.routes.ts
+│       │   │   └── app.config.ts
+│       │   └── environments/  # Environment configs
+│       ├── Dockerfile
+│       ├── nginx.conf
+│       └── package.json
+│
+├── docker-compose.yml
+├── .env.example
+└── package.json
+```
+
+## 🛠️ Tech Stack
+
+### Backend
+- **Framework:** NestJS 10+
+- **Database:** MongoDB 7
+- **ODM:** Mongoose
+- **Authentication:** Passport, JWT
+- **Validation:** class-validator, class-transformer
+- **Logging:** Pino
+- **Documentation:** Swagger/OpenAPI
+- **Security:** Helmet, bcrypt, rate-limiting
+
+### Frontend
+- **Framework:** Angular 21.1.4
+- **Architecture:** Standalone Components
+- **HTTP Client:** Angular HttpClient
+- **Routing:** Angular Router
+- **Forms:** Reactive Forms
+- **State:** RxJS
+
+### DevOps
+- **Containerization:** Docker
+- **Orchestration:** Docker Compose
+- **Web Server:** Nginx (for Angular)
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 20+
+- Docker & Docker Compose
+- MongoDB (if running locally)
+
+### 1. Clone and Install
+
+```bash
+# Clone repository
+git clone <your-repo-url>
+cd Full-Stack-MENA
+
+# Install dependencies (optional - if running without Docker)
+npm install
+cd apps/api && npm install
+cd ../web && npm install
+```
+
+### 2. Environment Configuration
+
+```bash
+# Copy environment example
+cp .env.example .env
+
+# Edit .env with your configuration
+```
+
+**Required Environment Variables:**
+
+```env
+# Server
+NODE_ENV=development
+PORT=3000
+
+# Database
+MONGODB_URI=mongodb://admin:admin123@localhost:27017/nestjs-starter?authSource=admin
+MONGO_ROOT_USER=admin
+MONGO_ROOT_PASSWORD=admin123
+MONGO_DATABASE=nestjs-starter
+
+# JWT
+JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+JWT_ACCESS_EXPIRY=15m
+JWT_REFRESH_EXPIRY=7d
+
+# OAuth - Google
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+GOOGLE_CALLBACK_URL=http://localhost:3000/api/auth/google/callback
+
+# OAuth - GitHub
+GITHUB_CLIENT_ID=your-github-client-id
+GITHUB_CLIENT_SECRET=your-github-client-secret
+GITHUB_CALLBACK_URL=http://localhost:3000/api/auth/github/callback
+
+# Frontend
+CLIENT_URL=http://localhost:4200
+
+# Security
+BCRYPT_ROUNDS=10
+RATE_LIMIT_TTL=60
+RATE_LIMIT_MAX=10
+```
+
+### 3. Run with Docker (Recommended)
+
+```bash
+# Build and start all services
+docker-compose up --build
+
+# Or run in detached mode
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+
+# Stop and remove volumes
+docker-compose down -v
+```
+
+**Services will be available at:**
+- Frontend: http://localhost:4200
+- Backend API: http://localhost:3000/api
+- Swagger Docs: http://localhost:3000/api/docs
+- MongoDB: localhost:27017
+
+### 4. Run Locally (Development)
+
+#### Backend
+```bash
+cd apps/api
+npm install
+npm run start:dev
+```
+
+#### Frontend
+```bash
+cd apps/web
+npm install
+npm start
+```
+
+## 🔐 OAuth Setup
+
+### Google OAuth
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select existing
+3. Enable Google+ API
+4. Create OAuth 2.0 credentials
+5. Add authorized redirect URI: `http://localhost:3000/api/auth/google/callback`
+6. Copy Client ID and Client Secret to `.env`
+
+### GitHub OAuth
+
+1. Go to [GitHub Developer Settings](https://github.com/settings/developers)
+2. Create new OAuth App
+3. Set Authorization callback URL: `http://localhost:3000/api/auth/github/callback`
+4. Copy Client ID and Client Secret to `.env`
+
+## 📚 API Documentation
+
+Once the backend is running, visit:
+- **Swagger UI:** http://localhost:3000/api/docs
+
+### Key Endpoints
+
+#### Authentication
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login with email/password
+- `POST /api/auth/refresh` - Refresh access token
+- `POST /api/auth/logout` - Logout user
+- `GET /api/auth/me` - Get current user
+- `GET /api/auth/google` - Google OAuth login
+- `GET /api/auth/github` - GitHub OAuth login
+
+#### Users
+- `GET /api/users` - Get all users (Admin only)
+- `GET /api/users/:id` - Get user by ID
+- `PATCH /api/users/:id` - Update user
+- `DELETE /api/users/:id` - Delete user
+
+## 🔒 Security Features
+
+- ✅ Passwords hashed with bcrypt
+- ✅ JWT tokens with expiration
+- ✅ Refresh token rotation
+- ✅ HttpOnly cookies for refresh tokens
+- ✅ CORS protection
+- ✅ Helmet security headers
+- ✅ Rate limiting
+- ✅ Input validation
+- ✅ SQL injection prevention (NoSQL)
+- ✅ XSS protection
+
+## 👥 User Roles
+
+The application supports role-based access control:
+
+- **user** - Default role for all registered users
+- **admin** - Administrative privileges
+
+To create an admin user, update the user's roles in MongoDB:
+
+```javascript
+db.users.updateOne(
+  { email: "admin@example.com" },
+  { $set: { roles: ["user", "admin"] } }
+)
+```
+
+## 🧪 Testing
+
+```bash
+# Backend unit tests
+cd apps/api
+npm run test
+
+# Backend e2e tests
+npm run test:e2e
+
+# Frontend tests
+cd apps/web
+npm run test
+```
+
+## 📦 Build for Production
+
+### Backend
+```bash
+cd apps/api
+npm run build
+```
+
+### Frontend
+```bash
+cd apps/web
+npm run build:prod
+```
+
+### Docker Production Build
+```bash
+docker-compose -f docker-compose.yml up --build
+```
+
+## 🔧 Customization
+
+### Adding New Features
+
+1. **Backend Module:**
+```bash
+cd apps/api
+nest g module features/my-feature
+nest g controller features/my-feature
+nest g service features/my-feature
+```
+
+2. **Frontend Component:**
+```bash
+cd apps/web
+ng g c features/my-feature --standalone
+```
+
+### Modifying Authentication
+
+- JWT configuration: `apps/api/src/config/configuration.ts`
+- Auth logic: `apps/api/src/auth/auth.service.ts`
+- Frontend auth: `apps/web/src/app/core/services/auth.service.ts`
+
+## 🐛 Troubleshooting
+
+### MongoDB Connection Issues
+- Ensure MongoDB is running: `docker-compose ps`
+- Check connection string in `.env`
+- Verify MongoDB credentials
+
+### OAuth Not Working
+- Verify OAuth credentials in `.env`
+- Check redirect URLs match OAuth app settings
+- Ensure frontend URL is correct in backend config
+
+### CORS Errors
+- Verify `CLIENT_URL` in backend `.env`
+- Check CORS configuration in `apps/api/src/main.ts`
+
+## 📄 License
+
+This project is open-source and available under the MIT License.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📞 Support
+
+For issues and questions, please open an issue on GitHub.
+
+---
+
+**Built with ❤️ using NestJS and Angular**

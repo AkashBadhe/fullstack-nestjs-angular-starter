@@ -1,0 +1,26 @@
+{
+  "name": "fullstack-starter",
+  "version": "1.0.0",
+  "description": "Production-ready full-stack starter template with NestJS and Angular",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install && cd apps/api && npm install && cd ../web && npm install",
+    "dev:api": "cd apps/api && npm run start:dev",
+    "dev:web": "cd apps/web && npm start",
+    "build:api": "cd apps/api && npm run build",
+    "build:web": "cd apps/web && npm run build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:build": "docker-compose up --build -d"
+  },
+  "keywords": [
+    "nestjs",
+    "angular",
+    "mongodb",
+    "jwt",
+    "oauth",
+    "fullstack"
+  ],
+  "author": "",
+  "license": "MIT"
+}

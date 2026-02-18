@@ -42,3 +42,13 @@ coverage/
 # Misc
 *.tgz
 .cache/
+
+# Angular
+.angular/
+apps/web/.angular/
+apps/web/dist/
+apps/web/.sass-cache/
+apps/web/connect.lock
+apps/web/libpeerconnection.log
+apps/web/testem.log
+apps/web/typings/

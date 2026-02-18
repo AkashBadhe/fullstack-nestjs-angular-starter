@@ -8,6 +8,12 @@ import { UserModule } from './user/user.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import configuration from './config/configuration';
+import {
+  ErrorLog,
+  ErrorLogSchema,
+} from './common/schemas/error-log.schema';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { LogsController } from './common/controllers/logs.controller';
 
 @Module({
   imports: [
@@ -15,7 +21,7 @@ import configuration from './config/configuration';
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],
-      envFilePath: '.env',
+      envFilePath: ['.env', '../../.env'],
     }),
 
     // Database
@@ -26,6 +32,9 @@ import configuration from './config/configuration';
       }),
       inject: [ConfigService],
     }),
+
+    // Error logs collection
+    MongooseModule.forFeature([{ name: ErrorLog.name, schema: ErrorLogSchema }]),
 
     // Rate Limiting
     ThrottlerModule.forRootAsync({
@@ -60,7 +69,7 @@ import configuration from './config/configuration';
     AuthModule,
     UserModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, LogsController],
+  providers: [AppService, HttpExceptionFilter],
 })
 export class AppModule {}

@@ -158,17 +158,27 @@ export class AuthController {
     @Request() req: any,
     @Response({ passthrough: true }) res: ExpressResponse,
   ) {
-    const result = await this.authService.oauthLogin(
-      req.user,
-      AuthProvider.GOOGLE,
-    );
-    
-    // Set refresh token in httpOnly cookie
-    this.setRefreshTokenCookie(res, result.refreshToken);
+    try {
+      // req.user is already the tokens object set by GoogleStrategy
+      const result = req.user;
 
-    // Redirect to frontend with access token
-    const clientUrl = this.configService.get<string>('cors.origin');
-    res.redirect(`${clientUrl}/auth/callback?token=${result.accessToken}`);
+      if (!result?.accessToken) {
+        throw new Error('OAuth login failed: no token returned from strategy');
+      }
+
+      // Set refresh token in httpOnly cookie
+      this.setRefreshTokenCookie(res, result.refreshToken);
+
+      // Redirect to frontend with access token
+      const clientUrl = this.configService.get<string>('cors.origin');
+      res.redirect(`${clientUrl}/auth/callback?token=${result.accessToken}`);
+      return;
+    } catch (error: any) {
+      const clientUrl = this.configService.get<string>('cors.origin');
+      const message = encodeURIComponent(error?.message || 'OAuth login failed');
+      res.redirect(`${clientUrl}/auth/callback?error=${message}`);
+      return;
+    }
   }
 
   // GitHub OAuth
@@ -188,17 +198,27 @@ export class AuthController {
     @Request() req: any,
     @Response({ passthrough: true }) res: ExpressResponse,
   ) {
-    const result = await this.authService.oauthLogin(
-      req.user,
-      AuthProvider.GITHUB,
-    );
-    
-    // Set refresh token in httpOnly cookie
-    this.setRefreshTokenCookie(res, result.refreshToken);
+    try {
+      // req.user is already the tokens object set by GithubStrategy
+      const result = req.user;
 
-    // Redirect to frontend with access token
-    const clientUrl = this.configService.get<string>('cors.origin');
-    res.redirect(`${clientUrl}/auth/callback?token=${result.accessToken}`);
+      if (!result?.accessToken) {
+        throw new Error('OAuth login failed: no token returned from strategy');
+      }
+
+      // Set refresh token in httpOnly cookie
+      this.setRefreshTokenCookie(res, result.refreshToken);
+
+      // Redirect to frontend with access token
+      const clientUrl = this.configService.get<string>('cors.origin');
+      res.redirect(`${clientUrl}/auth/callback?token=${result.accessToken}`);
+      return;
+    } catch (error: any) {
+      const clientUrl = this.configService.get<string>('cors.origin');
+      const message = encodeURIComponent(error?.message || 'OAuth login failed');
+      res.redirect(`${clientUrl}/auth/callback?error=${message}`);
+      return;
+    }
   }
 
   /**

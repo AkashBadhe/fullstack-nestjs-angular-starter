@@ -244,4 +244,19 @@ export class AuthService {
     }
     return user;
   }
+  /**
+   * Validate OAuth login for Google/GitHub strategies
+   */
+  async validateOAuthLogin(user: any, provider: AuthProvider) {
+    // Find or create user using oauthLogin logic
+    const oauthUser = await this.oauthLogin({
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      avatar: user.avatar,
+      emails: [{ value: user.email }],
+    }, provider);
+    return oauthUser;
+  }
 }

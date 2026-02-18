@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-import { User } from '../../core/models/auth.models';
+import { User, UserRole } from '../../core/models/auth.models';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
   private router = inject(Router);
 
   user: User | null = null;
+  userRoles = UserRole;
 
   ngOnInit(): void {
     this.authService.currentUser$.subscribe((user) => {

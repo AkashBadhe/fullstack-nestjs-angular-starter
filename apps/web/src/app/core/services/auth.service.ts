@@ -176,8 +176,14 @@ export class AuthService {
     localStorage.setItem('accessToken', token);
     
     // Fetch user details
-    this.getCurrentUser().subscribe(() => {
-      this.router.navigate(['/dashboard']);
+    this.getCurrentUser().subscribe({
+      next: () => this.router.navigate(['/dashboard']),
+      error: () => {
+        this.clearSession();
+        this.router.navigate(['/login'], {
+          queryParams: { error: 'Authentication failed. Please try again.' },
+        });
+      },
     });
   }
 

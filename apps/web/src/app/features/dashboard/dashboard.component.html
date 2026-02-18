@@ -5,7 +5,7 @@
       <div class="nav-actions">
         @if (user) {
           <span class="user-email">{{ user.email }}</span>
-          @if (user.roles.includes('admin')) {
+          @if (user.roles?.includes(userRoles.ADMIN)) {
             <button class="btn btn-secondary" (click)="goToAdmin()">Admin Panel</button>
           }
           <button class="btn btn-outline" (click)="logout()">Logout</button>

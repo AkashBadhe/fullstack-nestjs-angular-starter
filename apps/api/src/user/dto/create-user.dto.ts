@@ -40,4 +40,7 @@ export class CreateUserDto {
   @IsOptional()
   @IsString()
   avatar?: string;
+  @ApiProperty({ required: false })
+  @IsOptional()
+  isActive?: boolean;
 }
